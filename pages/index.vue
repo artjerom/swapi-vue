@@ -301,7 +301,11 @@ export default {
                     if (film.vehicles.indexOf(vehcle.url) >= 0) result.push(film);
                 });
             });
-            this.setFilms(result);
+            const newFilms = result.sort((a, b) => a.release_date > b.release_date ? -1 : 1).reduce((a, v) => {
+                if (!a.length || a[a.length - 1].title !== v.title) a.push(v);
+                return a;
+            }, []);
+            this.setFilms(newFilms);
         },
         sortFilms(field) {
             if (this.sort.name !== field) {
